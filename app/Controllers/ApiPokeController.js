@@ -5,7 +5,7 @@ import {Pokemon} from "../Models/Pokemon.js"
 
 function _drawPokemon(){
     let template = ''
-    ProxyState.pokemon.forEach(p => template += /*html*/`<li onclick="app.apiPokeController.setActivePokemon('${p.url}')" class="selectable">${p.name},</li>`)
+    ProxyState.pokemon.forEach(p => template += /*html*/`<li onclick="app.apiPokeController.setActivePokemon('${p.index}')" class="selectable">${p.name},</li>`)
     document.getElementById('api-pokemon').innerHTML = template
 }
 function _drawActivePokemon(){

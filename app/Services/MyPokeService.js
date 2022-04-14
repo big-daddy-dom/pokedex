@@ -6,7 +6,7 @@ class MyPokeService{
     async benchPokemon(){
         let pokeEdit = ProxyState.activePokemon
         pokeEdit.benched = !pokeEdit.benched
-        const res = sandboxApi.put('dom/pokemon' + pokeEdit.id, pokeEdit)
+        const res = await sandboxApi.put('dom/pokemon' + pokeEdit.id, pokeEdit)
         const pokeEditIndex = ProxyState.myPokemon.findIndex(p => p.id == res.data.id)
         const newPokemon = new Pokemon(res.data)
         ProxyState.myPokemon.splice(pokeEditIndex, 1, newPokemon)
@@ -23,7 +23,7 @@ setActivePokemon(pokeId){
     ProxyState.activePokemon = activePokemon
 }
 async getMyPokemon(){
-    const res= sandboxApi.get('dom/pokemon')
+    const res = await sandboxApi.get('dom/pokemon')
     ProxyState.myPokemon = res.data.map(p => new Pokemon(p)).sort((a, b) => {
         return a.name < b.name ? -1 : a.name > b.name ? 1: 0
     })

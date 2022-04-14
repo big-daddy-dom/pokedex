@@ -1,30 +1,29 @@
 export class Pokemon {
   constructor(data) {
-    
-    this.name = data.name;
-    this.url = data.url;
-    
- 
+    this.url=data.url
+    this.id = data.id
+    this.name = data.name
+ this.benched = data.benched || false
   }
 
   get Template() {
     return /*html*/ `
-        <div class="bg-secondary rounded p-3">
-<h1>${this.name}</h1>
-
-</div>
-
-
+    <h1>${this.name}</h1>
        
-        `;
+        `
+
   }
   get Buttons() {
-    if (this.url) {
+    if (this.id) {
       return /*html*/ `
           <div class="d-flex align-items-center justify-content-between p-2">
-            <button class="btn btn-danger" onclick="app.myPokemonController.removePokemon('${this.url}')">Remove Pokemon</button>
+            <button class="btn btn-danger" onclick="app.myPokemonController.removePokemon('${this.id}')">Remove Pokemon</button>
            
           </div>
+          <input class="form-check-input" type="checkbox" value="" id="myPokemon" ${this.benched ? 'checked' : ''}  onclick="app.myPokeController.benchPokemon()">
+          <label class="form-check-label" for="myPokemon">benched</label>
+        </div>
+      </div>
     
           `;
     }

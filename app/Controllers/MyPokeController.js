@@ -1,19 +1,18 @@
+
 import { ProxyState } from "../AppState.js";
 import { myPokeService } from "../Services/MyPokeService.js";
 import { Pop } from "../Utils/Pop.js";
 
 function _drawMyPokemon() {
   let template = '';
-  ProxyState.myPokemon.forEach(
-    (p) =>
-      (template += /*html*/ `<li class="selectable" onclick="app.myPokeController.setActivePokemon('${p.url}')">${p.name}</li>`)
+  ProxyState.myPokemon.forEach(p =>  template += /*html*/ `<li class="selectable" onclick="app.myPokeController.setActivePokemon('${p.id}')">${p.name} ${p.benched ? '<i class="mdi mdi-star"></i>' : ''}</li>`
   );
   document.getElementById("my-pokemon").innerHTML = template;
 }
 
 function _drawBenched() {
   let total = ProxyState.myPokemon.length;
-  let benchedTotal = ProxyState.myPokemon.filter((p) => p.benched).length;
+  let benchedTotal = ProxyState.myPokemon.filter(p => p.benched).length;
   document.getElementById("total").innerText = total.toString();
   document.getElementById("benched").innerText = benchedTotal.toString();
 }
@@ -35,12 +34,22 @@ export class MyPokeController {
       }
   }
 
+
+  async benchPokemon(){
+    try {
+      let benchedPokemon = await myPokeService.benchPokemon
+      Pop.toast(`${benchedPokemon.name} was put on your team!`, 'success')
+    } catch (error) {
+      
+    }
+  }
+
   setActivePokemon(pokeId) {
     try {
       myPokeService.setActivePokemon(pokeId);
+      // @ts-ignore
       bootstrap.Offcanvas.getOrCreateInstance(
-        document.getElementById("my-pokemon-offcanvas")
-      ).toggle();
+        document.getElementById("my-pokemon-offcanvas")).toggle();
     } catch (error) {
       Pop.toast(error.message, "error");
     }
@@ -57,6 +66,7 @@ export class MyPokeController {
       const newPokemon = await myPokeService.addPokemon()
       Pop.toast(`${newPokemon.name} was caught!`, "success")
     } catch (error) {
+      // @ts-ignore
       Pop.toast(`Oh no! ${newPokemon.name} escaped!`, "error")
     }
   }
