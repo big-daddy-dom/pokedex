@@ -1,12 +1,12 @@
 import { ProxyState } from "../AppState.js";
 import { Pokemon} from "../Models/Pokemon.js"
-import {sandboxApi} from "../Services/AxiosService.js"
+import { sandboxApi } from "./AxiosService.js"
 
 class MyPokeService{
     async benchPokemon(){
         let pokeEdit = ProxyState.activePokemon
         pokeEdit.benched = !pokeEdit.benched
-        const res = await sandboxApi.put('dom/pokemon' + pokeEdit.id, pokeEdit)
+        const res = await sandboxApi.put('dom/pokemon/' + pokeEdit.id, pokeEdit)
         const pokeEditIndex = ProxyState.myPokemon.findIndex(p => p.id == res.data.id)
         const newPokemon = new Pokemon(res.data)
         ProxyState.myPokemon.splice(pokeEditIndex, 1, newPokemon)
@@ -16,7 +16,7 @@ class MyPokeService{
     async removePoke(pokeId){
         await sandboxApi.delete('dom/pokemon/' + pokeId)
         ProxyState.activePokemon = null
-        return ProxyState.myPokemon.find(p => p.id == pokeId)
+        return ProxyState.myPokemon.find(p => p.pokedex == pokeId)
     }
 setActivePokemon(pokeId){
     const activePokemon = ProxyState.myPokemon.find(p => p.id == pokeId)

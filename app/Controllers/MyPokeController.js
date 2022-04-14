@@ -5,7 +5,7 @@ import { Pop } from "../Utils/Pop.js";
 
 function _drawMyPokemon() {
   let template = '';
-  ProxyState.myPokemon.forEach(p =>  template += /*html*/ `<li class="selectable" onclick="app.myPokeController.setActivePokemon('${p.id}')">${p.name} ${p.benched ? '<i class="mdi mdi-star"></i>' : ''}</li>`
+  ProxyState.myPokemon.forEach(p =>  template += /*html*/ `<li class="selectable" onclick="app.myPokeController.setActivePokemon('${p.pokedex}')">${p.name} ${p.benched ? '<i class="mdi mdi-star"></i>' : ''}</li>`
   );
   document.getElementById("my-pokemon").innerHTML = template;
 }
@@ -19,7 +19,7 @@ function _drawBenched() {
 
 export class MyPokeController {
   constructor() {
-    this.getMyPokemon();
+    this.getMyPokemon()
     ProxyState.on("myPokemon", _drawMyPokemon);
     ProxyState.on("myPokemon", _drawBenched);
   }
