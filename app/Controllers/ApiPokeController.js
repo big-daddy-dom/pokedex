@@ -7,7 +7,7 @@ function _drawPokemon() {
   let template = ''
   ProxyState.pokemon.forEach(
     (p =>
-      template += /*html*/ `<li onclick="app.apiPokeController.setActivePokemon('${p.pokedex}')" class="selectable">${p.name}</li>`)
+      template += /*html*/ `<li onclick="app.apiPokeController.setActivePokemon('${p.name}')" class="selectable">${p.name}</li>`)
   );
   document.getElementById("api-pokemon").innerHTML = template;
 }
@@ -33,9 +33,10 @@ export class ApiPokeController {
       Pop.toast(error.message, "error");
     }
   }
-  async setActivePokemon(pokeIndex) {
+  async setActivePokemon(pokeName) {
     try {
-      await apiPokeService.setActivePokemon(pokeIndex);
+      await apiPokeService.setActivePokemon(pokeName);
+      console.log(pokeName);
     } catch (error) {
       Pop.toast(error.message, "error");
     }

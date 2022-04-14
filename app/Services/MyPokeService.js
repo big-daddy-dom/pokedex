@@ -11,19 +11,20 @@ class MyPokeService{
         const newPokemon = new Pokemon(res.data)
         ProxyState.myPokemon.splice(pokeEditIndex, 1, newPokemon)
         ProxyState.myPokemon = ProxyState.myPokemon
+        console.log(res.data);
         return newPokemon
     }
-    async removePoke(pokeId){
-        await sandboxApi.delete('dom/pokemon/' + pokeId)
+    async removePoke(pokeName){
+        await sandboxApi.delete('dominic/pokemon/' + pokeName)
         ProxyState.activePokemon = null
-        return ProxyState.myPokemon.find(p => p.pokedex == pokeId)
+        return ProxyState.myPokemon.find(p => p.name == pokeName)
     }
-setActivePokemon(pokeId){
-    const activePokemon = ProxyState.myPokemon.find(p => p.id == pokeId)
+setActivePokemon(pokeName){
+    const activePokemon = ProxyState.myPokemon.find(p => p.name == pokeName)
     ProxyState.activePokemon = activePokemon
 }
 async getMyPokemon(){
-    const res = await sandboxApi.get('dom/pokemon')
+    const res = await sandboxApi.get('dominic/pokemon')
     ProxyState.myPokemon = res.data.map(p => new Pokemon(p)).sort((a, b) => {
         return a.name < b.name ? -1 : a.name > b.name ? 1: 0
     })

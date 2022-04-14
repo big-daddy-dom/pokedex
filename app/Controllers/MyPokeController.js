@@ -5,7 +5,7 @@ import { Pop } from "../Utils/Pop.js";
 
 function _drawMyPokemon() {
   let template = '';
-  ProxyState.myPokemon.forEach(p =>  template += /*html*/ `<li class="selectable" onclick="app.myPokeController.setActivePokemon('${p.pokedex}')">${p.name} ${p.benched ? '<i class="mdi mdi-star"></i>' : ''}</li>`
+  ProxyState.myPokemon.forEach(p =>  template += /*html*/ `<li class="selectable" onclick="app.myPokeController.setActivePokemon('${p.name}')">${p.name} ${p.benched ? '<i class="mdi mdi-star"></i>' : ''}</li>`
   );
   document.getElementById("my-pokemon").innerHTML = template;
 }
@@ -24,9 +24,9 @@ export class MyPokeController {
     ProxyState.on("myPokemon", _drawBenched);
   }
 
-  async removePoke(pokeId) {
+  async removePoke(pokeName) {
       try {
-          const removedPoke = await myPokeService.removePoke(pokeId)
+          const removedPoke = await myPokeService.removePoke(pokeName)
           Pop.toast(`${removedPoke.name} has been killed! You monster.`, 'success')
       } catch (error) {
           Pop.toast(error.message, 'error')
@@ -37,16 +37,16 @@ export class MyPokeController {
 
   async benchPokemon(){
     try {
-      let benchedPokemon = await myPokeService.benchPokemon
+      let benchedPokemon = await myPokeService.benchPokemon()
       Pop.toast(`${benchedPokemon.name} was put on your team!`, 'success')
     } catch (error) {
       
     }
   }
 
-  setActivePokemon(pokeId) {
+  setActivePokemon(pokeName) {
     try {
-      myPokeService.setActivePokemon(pokeId);
+      myPokeService.setActivePokemon(pokeName);
       // @ts-ignore
       bootstrap.Offcanvas.getOrCreateInstance(
         document.getElementById("my-pokemon-offcanvas")).toggle();
