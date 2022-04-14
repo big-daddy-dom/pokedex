@@ -2,3 +2,7 @@
     max-height: 100%;
     overflow-y: auto;
 }
+
+.poke-row{
+    height: 91vh
+}
