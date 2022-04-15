@@ -5,19 +5,21 @@ export class Pokemon {
     this.index = data.index
     this.name = data.name
     this.url = data.url
+    this.sprite = data.sprites.front_default
+
     this.benched = data.benched || false
       
   }
 
   get Template() {
     return /*html*/ `
-    <li id="active-pokemon">${this.name}</li>
+    <li id="active-pokemon">${this.name}<img src="'${this.sprite}'" alt=""> </li>
        
         `
 
   }
   get Buttons() {
-    if (this.name) {
+    if (this.id) {
       return /*html*/ `
           <div class="d-flex align-items-center justify-content-between p-2">
             <button class="btn btn-danger" onclick="app.myPokeController.removePokemon('${this.name}')">Remove Pokemon</button>
@@ -28,8 +30,8 @@ export class Pokemon {
         </div>
       </div>
     
-          `;
+          `
     }
-    return /*html*/ `<button class="btn btn-success" onclick="app.myPokeController.addPokemon()">Add Pokemon</button>`;
+    return /*html*/ `<button class="btn btn-success" onclick="app.myPokeController.addPokemon()">Add Pokemon</button>`
   }
 }

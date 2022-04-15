@@ -31,6 +31,7 @@ export class ApiPokeController {
       await apiPokeService.getApiPokemon();
     } catch (error) {
       Pop.toast(error.message, "error");
+      console.log(error)
     }
   }
   async setActivePokemon(pokeName) {
@@ -39,6 +40,7 @@ export class ApiPokeController {
       console.log(pokeName);
     } catch (error) {
       Pop.toast(error.message, "error");
+      console.log(error)
     }
   }
 }
